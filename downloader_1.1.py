@@ -6,6 +6,17 @@ import os
 #handling various exception
 #checking if file already exists.
 #hadling various exception
+def check_if_file_exists(path , title):
+	temp = ''
+	for title_part in title.split("|"):
+		temp += title_part
+	temp += ".mp4"
+	for file in os.listdir(path):
+		if file == temp:
+			print("match found")
+			input()
+			return True
+	return False
 
 def download_video(urls, download_dir="/home/synced/Desktop/YouTube/"):
 	if isinstance(urls, str):
@@ -14,6 +25,11 @@ def download_video(urls, download_dir="/home/synced/Desktop/YouTube/"):
 	choice = input("1)video \n 2) audio \n Enter no. of your choice:")
 	for url in urls:
 		yt = YouTube(url)
+
+		if check_if_file_exists(download_dir, yt.title):
+			print("file already exist")
+			continue
+
 		print(f"downloading {yt.title}...")
 		if choice == "1":
 			stream = yt.streams.first()
